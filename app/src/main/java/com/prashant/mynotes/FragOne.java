@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,6 +43,9 @@ public class FragOne extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        shareP = this.getActivity().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+
         View v = inflater.inflate(R.layout.fragment_one, container, false);
 
         preparedata();
@@ -155,14 +159,27 @@ public class FragOne extends Fragment implements View.OnClickListener{
     {
 
         NoteDBHandler db = new NoteDBHandler(getActivity());
-        if(db.checkForNull()== 0){
+
+        Log.e(shareP.getString("Email", "naahi"),"");
+        Log.e(shareP.getString("Email", "naahi"), " outside if");
+        if(db.checkForNullbyUser(shareP.getString("Email","naahi")) == 0){
+            Log.e(shareP.getString("Email", "naahi"), " inside if");
+
             NotesModel notedata = new NotesModel();
-            notedata.setUserId("demonstration@demo.com");
+            notedata.setUserId(shareP.getString("Email","naahi"));
             notedata.setNoteTitle("Demo Note");
             notedata.setNoteDescription("Here you can add your note content");
             db.addNote(notedata);
+            noteList.add(notedata);
 
             Toast.makeText(getActivity(), "Welcome to the MyNotes",Toast.LENGTH_LONG).show();
+        }
+
+        else
+        {
+            Log.e(shareP.getString("Email", "naahi"), " inside else");
+
+            noteList = db.findNotesByUser(shareP.getString("Email", "naahi"));
         }
 
         //dummy data
@@ -179,7 +196,7 @@ public class FragOne extends Fragment implements View.OnClickListener{
 //        }
 
 
-        noteList = db.findNotesByUser("demonstration@demo.com");
+
         //noteList = db.findNotesByUser(shareP.getString("Email","naahi"));
     }
 

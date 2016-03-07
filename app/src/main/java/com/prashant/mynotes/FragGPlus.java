@@ -3,6 +3,7 @@ package com.prashant.mynotes;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -61,7 +62,9 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_google_plus, container, false);
         //get from sharedpref
-        shareP = getActivity().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        shareP = this.getActivity().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+
+        //shareP = getActivity().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = shareP.edit();
         notes = (ImageButton) v.findViewById(R.id.myNotes);
         textViewName = (TextView) v.findViewById(R.id.textViewName);
@@ -184,18 +187,22 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
             textViewName.setText(acct.getDisplayName());
             textViewEmail.setText(acct.getEmail());
 
-            //Initializing image loader
-            imageLoader = CustomVolleyRequest.getInstance(getActivity())
-                    .getImageLoader();
+            try {
+                //Initializing image loader
+                imageLoader = CustomVolleyRequest.getInstance(getActivity())
+                        .getImageLoader();
 
-            imageLoader.get(acct.getPhotoUrl().toString(),
-                    ImageLoader.getImageListener(profilePhoto,
-                            R.mipmap.ic_launcher,
-                            R.mipmap.ic_launcher));
+                imageLoader.get(acct.getPhotoUrl().toString(),
+                        ImageLoader.getImageListener(profilePhoto,
+                                R.mipmap.ic_launcher,
+                                R.mipmap.ic_launcher));
 
-            //Loading image
-            profilePhoto.setImageUrl(acct.getPhotoUrl().toString(), imageLoader);
-
+                //Loading image
+                profilePhoto.setImageUrl(acct.getPhotoUrl().toString(), imageLoader);
+            }
+            catch (Exception e){
+                profilePhoto.setImageUrl("https://heatherchristenaschmidt.files.wordpress.com/2011/09/facebook_no_profile_pic2-jpg.gif",imageLoader);
+            }
             //hide the sign in button
             com.google.android.gms.common.SignInButton sign_in = (SignInButton) v.findViewById(R.id.sign_in_button);
             ViewGroup layout = (ViewGroup) sign_in.getParent();
@@ -234,16 +241,16 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
 
 
 
-//    public void signOut(View v) {
-//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(Status status) {
-//                        // [START_EXCLUDE]
-//                        // [END_EXCLUDE]
-//                    }
-//                });
-//    }
+    public void manualSignOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
+    }
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 

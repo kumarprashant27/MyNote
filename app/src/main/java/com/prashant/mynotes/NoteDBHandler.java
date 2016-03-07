@@ -7,6 +7,7 @@ package com.prashant.mynotes;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -42,6 +43,8 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
                 TABLE_NAME + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -113,6 +116,14 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         return icount;
     }
 
+    public int checkForNullbyUser(String userName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String count = "SELECT count(*) FROM notes WHERE "+COLUMN_USERID +" = \"" + userName + "\"";
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        return icount;
+    }
 
 
     public ArrayList<NotesModel> findNotesByUser(String byUser) {
@@ -198,7 +209,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
             if (!cursor.moveToFirst())
                 return NoteListbyNoteID;
             do {
-                //Todo todo = new Todo();
+
                 NotesModel userNotes = new NotesModel();
                 userNotes.setNoteId(Integer.parseInt(cursor.getString(0)));
                 userNotes.setUserId(cursor.getString(1));
@@ -206,12 +217,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
                 userNotes.setNoteDescription(cursor.getString(3));
                 userNotes.setTimeOfCreate(Timestamp.valueOf(cursor.getString(4)));
 
-//                todo.id = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
-//                todo.from = cursor.getString(cursor.getColumnIndex(COLUMN_FROM));
-//                todo.to = cursor.getString(cursor.getColumnIndex(COLUMN_TO));
-//                todo.title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
-//                todo.tag = cursor.getString(cursor.getColumnIndex(COLUMN_TAG));
-//                arList.add(todo);
+
 
                 NoteListbyNoteID.add(userNotes);
 

@@ -3,6 +3,7 @@ package com.prashant.mynotes;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,6 +36,9 @@ public class FragTwo extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        shareP = this.getActivity().getSharedPreferences("Mypref", Context.MODE_PRIVATE);
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_two, container, false);
         // If no arguments passed i.e for creating new note
@@ -125,7 +129,7 @@ public class FragTwo extends Fragment implements View.OnClickListener {
 
         NoteDBHandler db = new NoteDBHandler(getActivity());
         NotesModel note = new NotesModel();
-        note.setUserId("demonstration@demo.com");
+        note.setUserId(shareP.getString("Email","naahi"));
         note.setNoteTitle(title.getText().toString());
         note.setNoteDescription(decsripion.getText().toString());
         //update note
