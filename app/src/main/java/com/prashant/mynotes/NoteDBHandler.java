@@ -100,10 +100,18 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 
     public int deleteNote(int NoteIdToDelete){
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NAME,  COLUMN_ID +" = " +NoteIdToDelete,null);
+        int result = db.delete(TABLE_NAME, COLUMN_ID + " = " + NoteIdToDelete, null);
         return result;
     }
 
+    public int checkForNull(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String count = "SELECT count(*) FROM notes";
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        return icount;
+    }
 
 
 
@@ -288,6 +296,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
 
 
 }

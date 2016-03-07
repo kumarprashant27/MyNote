@@ -28,32 +28,52 @@ public class FragTwo extends Fragment implements View.OnClickListener {
     private int position;
     ImageButton saveButton;
     ImageButton deleteButton;
+    ImageButton cancelButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_two, container, false);
-        strtext = getArguments().getString("NoteID");
-        position = Integer.parseInt(strtext);
+        // If no arguments passed i.e for creating new note
+        if (getArguments() == null)
+        {
+            strtext = "null";
+            title = (EditText) v.findViewById(R.id.note_title_content);
+            decsripion  = (EditText) v.findViewById(R.id.note_description_content);
+
+        }
+        //if argument passed i.e. editing a note
+        else {
+            strtext = getArguments().getString("NoteID");
+            position = Integer.parseInt(strtext);
 
 
-        NoteDBHandler db = new NoteDBHandler(getActivity());
+            NoteDBHandler db = new NoteDBHandler(getActivity());
 
-        noteList = db.findNotesByNoteID(position);
-        NotesModel note = noteList.get(0);
+            noteList = db.findNotesByNoteID(position);
+            NotesModel note = noteList.get(0);
 
-        title = (EditText) v.findViewById(R.id.note_title_content);
-        title.setText(note.getNoteTitle());
+            title = (EditText) v.findViewById(R.id.note_title_content);
+            title.setText(note.getNoteTitle());
 
-        decsripion = (EditText) v.findViewById(R.id.note_description_content);
-        decsripion.setText(note.getNoteDescription());
+            decsripion = (EditText) v.findViewById(R.id.note_description_content);
+            decsripion.setText(note.getNoteDescription());
+
+        }
+
+
         saveButton = (ImageButton) v.findViewById(R.id.imageButtonSave);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //   save data
-                saveNote();
+                if(getArguments()==null){
+                saveNewNote();
+                }
+                else {
+                    saveNote();
+                }
                 //creating fragments object
                 FragOne fragmentTwo = new FragOne();
                 //show edit note wala fragment
@@ -78,9 +98,41 @@ public class FragTwo extends Fragment implements View.OnClickListener {
         });
 
 
+        cancelButton = (ImageButton) v.findViewById(R.id.imageButtonCancel);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   no change to data
+                //creating fragments object
+                FragOne fragmentTwo = new FragOne();
+                //show edit note wala fragment
+                CreateFragment(fragmentTwo, R.id.container_for_fragment);
+
+            }
+        });
+
+
 
 
         return v;
+    }
+//save a new note
+    public void saveNewNote(){
+
+        NoteDBHandler db = new NoteDBHandler(getActivity());
+        NotesModel note = new NotesModel();
+        note.setUserId("demonstration@demo.com");
+        note.setNoteTitle(title.getText().toString());
+        note.setNoteDescription(decsripion.getText().toString());
+        //update note
+        boolean flag = db.addNote(note);
+        if(flag == true) {
+            Toast.makeText(getActivity(), flag + " Saved Successfully ", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getActivity(), flag + " Save Unsuccessful ", Toast.LENGTH_SHORT).show();
+        }
     }
 //to update the note
     public void saveNote(){

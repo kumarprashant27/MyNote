@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.sql.Timestamp;
@@ -23,11 +24,13 @@ import java.util.List;
 /**
  * Created by shishir on 3/7/16.
  */
-public class FragOne extends Fragment {
+public class FragOne extends Fragment implements View.OnClickListener{
     private RecyclerView recyclerView;
     public List<NotesModel> noteList = new ArrayList<>();
     public NotesAdapter mAdapter;
     public String positionInString;
+    ImageButton addNetNoteButton;
+
 
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -72,9 +75,29 @@ public class FragOne extends Fragment {
             }
         }));
 
+        addNetNoteButton = (ImageButton) v.findViewById(R.id.imageButtonAddNewNote);
+
+        addNetNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   New Note
+                //creating fragments object
+                FragTwo fragmentTwo = new FragTwo();
+                //show edit note wala fragment
+                CreateEmptyFragment(fragmentTwo, R.id.container_for_fragment);
+
+            }
+        });
         return v;
 
     }
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
     public interface ClickListener {
         void onClick(View view, int position);
 
@@ -128,22 +151,31 @@ public class FragOne extends Fragment {
     {
 
         NoteDBHandler db = new NoteDBHandler(getActivity());
+        if(db.checkForNull()== 0){
+            NotesModel notedata = new NotesModel();
+            notedata.setUserId("demonstration@demo.com");
+            notedata.setNoteTitle("Demo Note");
+            notedata.setNoteDescription("Here you can add your note content");
+            db.addNote(notedata);
+
+            Toast.makeText(getActivity(), "Welcome to the MyNotes",Toast.LENGTH_LONG).show();
+        }
 
         //dummy data
-        String title;
-        for (int i=1 ; i<3 ; i++) {
-            NotesModel notedata = new NotesModel();
-            notedata.setUserId("kpt@g.com");
-            title = "title no "+ i;
-            notedata.setNoteTitle(title);
-            notedata.setNoteDescription("note content");
-            db.addNote(notedata);
-            //noteList.add(notedata);
+//        String title;
+//        for (int i=1 ; i<3 ; i++) {
+//            NotesModel notedata = new NotesModel();
+//            notedata.setUserId("kpt@g.com");
+//            title = "title no "+ i;
+//            notedata.setNoteTitle(title);
+//            notedata.setNoteDescription("note content");
+//            db.addNote(notedata);
+//            //noteList.add(notedata);
+//
+//        }
 
-        }
-        Toast.makeText(getActivity(), "data insterd",Toast.LENGTH_SHORT).show();
 
-        noteList = db.findNotesByUser("kpt@g.com");
+        noteList = db.findNotesByUser("demonstration@demo.com");
         //noteList = db.findNotesByUser(shareP.getString("Email","naahi"));
     }
 
@@ -165,5 +197,14 @@ public class FragOne extends Fragment {
         fragmentTransaction.commit();
     }
 
+    public void CreateEmptyFragment(Fragment frag, int containerForFragment){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        Bundle args = new Bundle();
+//        args.putString("NoteID", positionInString);
+//        frag.setArguments(args);
+        fragmentTransaction.replace(containerForFragment, frag);
+        fragmentTransaction.commit();
+    }
 }
 
