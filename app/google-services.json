@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "my-notes-1243",
+    "project_number": "39660915045",
+    "name": "My Notes"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39660915045:android:ad84818c1e38cc15",
+        "client_id": "android:com.prashant.mynotes",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.prashant.mynotes",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39660915045-2u0ig1k42oghmgcs5894dcov8ko2hjfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prashant.mynotes",
+            "certificate_hash": "E954122562FF43F8C8DC5FDABF454081DAAA4D32"
+          }
+        },
+        {
+          "client_id": "39660915045-939g8a4k7do01412cjba4c54fj43nlk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

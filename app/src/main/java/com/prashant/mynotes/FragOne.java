@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,9 @@ import java.util.List;
  * Created by shishir on 3/7/16.
  */
 public class FragOne extends Fragment implements View.OnClickListener{
+    SharedPreferences shareP;
+
+
     private RecyclerView recyclerView;
     public List<NotesModel> noteList = new ArrayList<>();
     public NotesAdapter mAdapter;

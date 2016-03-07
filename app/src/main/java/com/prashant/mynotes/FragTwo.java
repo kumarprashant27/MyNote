@@ -3,6 +3,7 @@ package com.prashant.mynotes;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import java.util.List;
  * Created by shishir on 3/7/16.
  */
 public class FragTwo extends Fragment implements View.OnClickListener {
+
+    public SharedPreferences shareP;
 
     public List<NotesModel> noteList = new ArrayList<>();
 
