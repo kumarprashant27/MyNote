@@ -98,6 +98,12 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public int deleteNote(int NoteIdToDelete){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_NAME,  COLUMN_ID +" = " +NoteIdToDelete,null);
+        return result;
+    }
+
 
 
 

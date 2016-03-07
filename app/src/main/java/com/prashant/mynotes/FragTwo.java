@@ -27,9 +27,11 @@ public class FragTwo extends Fragment implements View.OnClickListener {
     private String strtext;
     private int position;
     ImageButton saveButton;
+    ImageButton deleteButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_two, container, false);
         strtext = getArguments().getString("NoteID");
         position = Integer.parseInt(strtext);
@@ -54,13 +56,30 @@ public class FragTwo extends Fragment implements View.OnClickListener {
                 saveNote();
                 //creating fragments object
                 FragOne fragmentTwo = new FragOne();
-                //show notes wala fragment
+                //show edit note wala fragment
                 CreateFragment(fragmentTwo, R.id.container_for_fragment);
 
             }
         });
 
-        // Inflate the layout for this fragment
+        deleteButton = (ImageButton) v.findViewById(R.id.imageButtonDelete);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //   save data
+                deleteNote();
+                //creating fragments object
+                FragOne fragmentTwo = new FragOne();
+                //show edit note wala fragment
+                CreateFragment(fragmentTwo, R.id.container_for_fragment);
+
+            }
+        });
+
+
+
+
         return v;
     }
 //to update the note
@@ -76,10 +95,13 @@ public class FragTwo extends Fragment implements View.OnClickListener {
         Toast.makeText(getActivity(), flag + " number of rows ", Toast.LENGTH_SHORT).show();
 
     }
-
+//to delete the current note
     public void deleteNote(){
-
+        NoteDBHandler db = new NoteDBHandler(getActivity());
+       int flag = db.deleteNote(position);
+        Toast.makeText(getActivity(), flag + " number of rows ", Toast.LENGTH_SHORT).show();
     }
+
 
 
     @Override
