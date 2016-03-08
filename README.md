@@ -12,7 +12,7 @@ uses:
 Google+ login API, activities & fragments, shared preferences, SQL Lite and Recyclerviews.
 
 Apk Link:
-https://drive.google.com/file/d/0B8wRV6SEVJe3SVpieG1Vazlna3c/view?usp=sharing
+https://drive.google.com/file/d/0B8wRV6SEVJe3MHowMnZmSE1tWHM/view?usp=sharing
 
         minSdkVersion 15 (Android 4.0.3)
        	targetSdkVersion 23 (Android 6.0/6.0.2)
