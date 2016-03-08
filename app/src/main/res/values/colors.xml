@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="forFragmentOne">#303F9F</color>
-    <color name="forFragmentTwo">#9C27B0</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="forFragmetSignin">#E3F2FD</color>
+
+    <color name="fornotelistrow">#90CAF9</color>
+    <color name="forFragmentOne">#64B5F6</color>
+    <color name="forFragmentTwo">#64B5F6</color>
 
 </resources>

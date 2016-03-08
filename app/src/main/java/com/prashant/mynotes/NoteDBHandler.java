@@ -1,7 +1,7 @@
 package com.prashant.mynotes;
 
 /**
- * Created by shishir on 3/5/16.
+ * Created by prashant on 3/5/16.
  */
 
 
@@ -83,6 +83,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 //        db.insert(TABLE_NAME, null, values);
 //        db.close();
 
+        Log.e(values.getAsString(COLUMN_NOTETITLE), values.getAsString(COLUMN_NOTEDESCRIPTION));
         boolean createSuccessful = db.insert(TABLE_NAME, null, values) > 0;
         db.close();
         return createSuccessful;
@@ -90,13 +91,24 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 
     public int updateNote(NotesModel note){
 
+        int result;
         ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ID,note.getNoteId());
         cv.put(COLUMN_NOTETITLE,note.getNoteTitle()); //These Fields should be your String values of actual column names
         cv.put(COLUMN_NOTEDESCRIPTION, note.getNoteDescription());
+
+        Log.e(cv.getAsString(COLUMN_NOTETITLE), cv.getAsString(COLUMN_NOTEDESCRIPTION));
         SQLiteDatabase db = this.getWritableDatabase();
         //number of rows changed
-        int result = db.update(TABLE_NAME, cv, COLUMN_ID + " = " + note.getNoteId(), null);
-        db.close();
+        if((cv.get(COLUMN_NOTETITLE)=="") && (cv.get(COLUMN_NOTEDESCRIPTION)=="")){
+            db.delete(TABLE_NAME, COLUMN_ID + " = " + cv.get(COLUMN_ID), null);
+            result = 0;
+            db.close();
+        }else{
+
+            result = db.update(TABLE_NAME, cv, COLUMN_ID + " = " + note.getNoteId(), null);
+            db.close();
+        }
         return result;
 
     }

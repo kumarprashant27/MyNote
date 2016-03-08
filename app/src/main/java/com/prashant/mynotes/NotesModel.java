@@ -3,7 +3,7 @@ package com.prashant.mynotes;
 import java.sql.Timestamp;
 
 /**
- * Created by shishir on 3/5/16.
+ * Created by prashant on 3/5/16.
  */
 public class NotesModel {
 

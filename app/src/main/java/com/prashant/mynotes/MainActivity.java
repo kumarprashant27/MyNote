@@ -8,6 +8,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
+/**
+ * Created by prashant on 3/7/16.
+ */
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences shareP;
@@ -17,11 +20,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //SharedPreferences prefs = this.getSharedPreferences("MyPref", 0);
-
+        //initiate share preferences
         SharedPreferences prefs = this.getSharedPreferences("Mypref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-
-//        editor.putBoolean("isPaid", true);
         editor.commit();
 
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        else {
 //
-            Toast.makeText(getApplicationContext(), "hola", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Welcome to MyNotes", Toast.LENGTH_LONG).show();
             //creating fragments object
             FragGPlus fragmentGoogle = new FragGPlus();
             //show notes wala fragment
@@ -48,14 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-//        FragGPlus fragmentGoogle = new FragGPlus();
-//        fragmentGoogle.manualSignOut();
 
-    };
-// function to initiate fragment and put it into the container
+// function to initiate Google sign in fragment and put it into the container
 
     public void CreateFragmentGPlus(Fragment frag, int containerForFragment){
         FragmentManager fragmentManager = getFragmentManager();
@@ -63,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(containerForFragment, frag);
         fragmentTransaction.commit();
     }
-
+//function to create normal fragment
     public void CreateFragment(Fragment frag, int containerForFragment){
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

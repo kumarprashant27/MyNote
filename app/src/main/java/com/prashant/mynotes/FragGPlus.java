@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 /**
- * Created by shishir on 3/7/16.
+ * Created by prashant on 3/7/16.
  */
 public class FragGPlus extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
@@ -51,6 +52,7 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
     private NetworkImageView profilePhoto;
 
     public ImageButton notes;
+    public ImageView android;
 
     //Image Loader
     private ImageLoader imageLoader;
@@ -70,7 +72,7 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
         textViewName = (TextView) v.findViewById(R.id.textViewName);
         textViewEmail = (TextView) v.findViewById(R.id.textViewEmail);
         profilePhoto = (NetworkImageView) v.findViewById(R.id.profileImage);
-
+        android = (ImageView) v.findViewById(R.id.back);
 //Initializing google signin option
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -211,7 +213,7 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
             shareP.edit().putString("Email", acct.getEmail().toString()).commit();
             shareP.edit().putString("Name", acct.getDisplayName()).commit();
 
-            String gum= shareP.getString("Name", acct.getDisplayName()) + shareP.getString("Email", acct.getEmail().toString());
+            String gum= "Hello  "+ shareP.getString("Name", acct.getDisplayName());
 
 
             Toast.makeText(getActivity(), gum, Toast.LENGTH_LONG).show();
@@ -222,6 +224,7 @@ public class FragGPlus extends Fragment implements View.OnClickListener, GoogleA
             notes.setVisibility(View.VISIBLE);
             signOutButton = (Button) v.findViewById(R.id.sign_out_button);
             signOutButton.setVisibility(View.VISIBLE);
+            android.setVisibility(View.GONE);
 
         } else {
             //If login fails

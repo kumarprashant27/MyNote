@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/forFragmentTwo"
     android:paddingLeft="5dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
@@ -15,7 +16,7 @@
         android:id="@+id/linearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Title"
             android:id="@+id/textView"
@@ -27,7 +28,7 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Description"
             android:id="@+id/textView2"

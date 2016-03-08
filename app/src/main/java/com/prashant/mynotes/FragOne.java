@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by shishir on 3/7/16.
+ * Created by prashant on 3/7/16.
  */
 public class FragOne extends Fragment implements View.OnClickListener{
     SharedPreferences shareP;
@@ -66,7 +66,7 @@ public class FragOne extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View view, int position) {
                 NotesModel note = noteList.get(position);
-                Toast.makeText(getActivity(), note.getNoteId() + " is selected!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Time Created " +note.getTimeOfCreate() + ". ", Toast.LENGTH_SHORT).show();
 //                EditNote();
 
             }
@@ -166,11 +166,28 @@ public class FragOne extends Fragment implements View.OnClickListener{
             Log.e(shareP.getString("Email", "naahi"), " inside if");
 
             NotesModel notedata = new NotesModel();
-            notedata.setUserId(shareP.getString("Email","naahi"));
+            notedata.setUserId(shareP.getString("Email", "naahi"));
+            //demo note for frist time users
             notedata.setNoteTitle("Demo Note");
-            notedata.setNoteDescription("Here you can add your note content");
-            db.addNote(notedata);
+            notedata.setNoteDescription("Here you can add your note content. \nThe Notes can be edited or deleted by pressing the deisred note for a little bit longer duration. \nYou might already have figured out that the button below will let you make new notes.");
+            boolean i = db.addNote(notedata);
+            if (i){
+                Log.e(shareP.getString("Email", "naahi"), " ho gaya entry bhai");
+            }
             noteList.add(notedata);
+
+            NotesModel notedata1 = new NotesModel();
+
+            //a tip
+            notedata1.setUserId(shareP.getString("Email","naahi"));
+            notedata1.setNoteTitle("Tip:");
+            notedata1.setNoteDescription("A note left blank is a note not needed, it will automatically be deleted. Go ahead and create a note!!");
+            boolean j = db.addNote(notedata1);
+            if (j){
+                Log.e(shareP.getString("Email", "naahi"), "  ye bhi ho gaya bhaiyo ");
+            }
+
+            noteList.add(notedata1);
 
             Toast.makeText(getActivity(), "Welcome to the MyNotes",Toast.LENGTH_LONG).show();
         }

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by shishir on 3/7/16.
+ * Created by prashant on 3/7/16.
  */
 public class FragTwo extends Fragment implements View.OnClickListener {
 
@@ -56,16 +57,23 @@ public class FragTwo extends Fragment implements View.OnClickListener {
 
 
             NoteDBHandler db = new NoteDBHandler(getActivity());
+            try {
+                noteList = db.findNotesByNoteID(position);
 
-            noteList = db.findNotesByNoteID(position);
-            NotesModel note = noteList.get(0);
+                NotesModel note = noteList.get(0);
 
-            title = (EditText) v.findViewById(R.id.note_title_content);
-            title.setText(note.getNoteTitle());
 
-            decsripion = (EditText) v.findViewById(R.id.note_description_content);
-            decsripion.setText(note.getNoteDescription());
+                title = (EditText) v.findViewById(R.id.note_title_content);
+                title.setText(note.getNoteTitle());
 
+                decsripion = (EditText) v.findViewById(R.id.note_description_content);
+                decsripion.setText(note.getNoteDescription());
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getActivity(), "The demo notes cannot be deleted/modified untill second run", Toast.LENGTH_LONG).show();
+            }
         }
 
 
@@ -77,9 +85,11 @@ public class FragTwo extends Fragment implements View.OnClickListener {
                 //   save data
                 if(getArguments()==null){
                 saveNewNote();
+                    Log.e("save new note","");
                 }
                 else {
                     saveNote();
+                    Log.e("save new note", "");
                 }
                 //creating fragments object
                 FragOne fragmentTwo = new FragOne();
@@ -120,45 +130,55 @@ public class FragTwo extends Fragment implements View.OnClickListener {
         });
 
 
-
-
         return v;
     }
 //save a new note
     public void saveNewNote(){
-
+        boolean flag =false;
         NoteDBHandler db = new NoteDBHandler(getActivity());
         NotesModel note = new NotesModel();
-        note.setUserId(shareP.getString("Email","naahi"));
+        note.setUserId(shareP.getString("Email", "naahi"));
         note.setNoteTitle(title.getText().toString());
         note.setNoteDescription(decsripion.getText().toString());
-        //update note
-        boolean flag = db.addNote(note);
-        if(flag == true) {
-            Toast.makeText(getActivity(), flag + " Saved Successfully ", Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(getActivity(),note.getNoteDescription()+" "+ note.getNoteTitle(), Toast.LENGTH_LONG).show();
+
+
+        if ((title.getText().toString().matches("")) && (decsripion.getText().toString().matches("")))
+        {
+            Toast.makeText(getActivity()," Next Time, do write something ", Toast.LENGTH_SHORT).show();
         }
-        else{
-            Toast.makeText(getActivity(), flag + " Save Unsuccessful ", Toast.LENGTH_SHORT).show();
+            else {
+            //update note
+            flag = db.addNote(note);
+            Toast.makeText(getActivity(), flag + " Saved Successfully ", Toast.LENGTH_SHORT).show();
         }
     }
 //to update the note
-    public void saveNote(){
+    public void saveNote() {
+
 
         NoteDBHandler db = new NoteDBHandler(getActivity());
         noteList = db.findNotesByNoteID(position);
         NotesModel note = noteList.get(0);
         note.setNoteTitle(title.getText().toString());
         note.setNoteDescription(decsripion.getText().toString());
-        //update note
-        int flag = db.updateNote(note);
-        Toast.makeText(getActivity(), flag + " number of rows ", Toast.LENGTH_SHORT).show();
-
+        Log.e(note.getNoteDescription(), note.getNoteTitle());
+        //check for blank note
+        if ((note.getNoteTitle().matches("")) && (note.getNoteDescription().matches(""))) {
+            Toast.makeText(getActivity()," A note left blank is a note not needed ", Toast.LENGTH_LONG).show();
+            db.deleteNote(note.getNoteId());
+        }else{
+            //update note
+            int flag = db.updateNote(note);
+            Toast.makeText(getActivity(), flag + " Note/s added ", Toast.LENGTH_SHORT).show();
+        }
     }
 //to delete the current note
     public void deleteNote(){
         NoteDBHandler db = new NoteDBHandler(getActivity());
        int flag = db.deleteNote(position);
-        Toast.makeText(getActivity(), flag + " number of rows ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), flag + " Note/s deleted ", Toast.LENGTH_SHORT).show();
     }
 
 
